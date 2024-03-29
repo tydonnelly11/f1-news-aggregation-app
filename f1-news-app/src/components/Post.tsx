@@ -13,7 +13,7 @@ export const Post = () =>
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/posts");
+        const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/posts");
         console.log(response);
         // Assuming response.data is the message you want to set
         // If response.data is an object or array, you might need to handle it differently
