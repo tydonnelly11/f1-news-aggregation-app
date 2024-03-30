@@ -39,7 +39,7 @@ function getAuthorizationToken(){
   
 }
 
-export default async function generateReportForDay(){
+async function generateReportForDay(){
   const postsToBeSummarized = await callRedditAPI();
  
 
@@ -106,7 +106,7 @@ app.listen(port, () => {
 
 //Sends the posts to the client
 app.get('/getRedditPosts', async (req, res) => {
-  generateReportForDay();
+  // generateReportForDay();
   console.log("DONE");
   
 });
