@@ -17,7 +17,6 @@ dotenv.config();
 
 const reddit = getAuthorizationToken();
 
-console.log(reddit);
 // //Cron job to run every day at 11pm 
 // cron.schedule('0 23 * * *',  () => {
 //   generateReportForDay();
@@ -70,7 +69,7 @@ async function summarizeWithDelay(posts) {
           });
       }
       // Wait for 1/4 of a second (250 milliseconds) before processing the next post
-      await delay(5000);
+      await delay(500);
   }
 
   return results;
@@ -108,6 +107,7 @@ app.listen(port, () => {
 //Sends the posts to the client
 app.get('/getRedditPosts', async (req, res) => {
   generateReportForDay();
+  console.log("DONE");
   
 });
 
