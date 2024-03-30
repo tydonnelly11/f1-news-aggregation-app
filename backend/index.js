@@ -108,14 +108,7 @@ app.listen(port, () => {
 
 //Sends the posts to the client
 app.get('/getRedditPosts', async (req, res) => {
-  try {
-    const postMedias = await callRedditAPI(reddit);
-    console.log(postMedias);
-    res.json(postMedias); // Send the postMedias back to the client
-  } catch(error) {
-    console.error("Failed to fetch Reddit posts", error);
-    res.status(500).send("Error fetching posts");
-  }  
+  generateReportForDay();
   
 });
 
