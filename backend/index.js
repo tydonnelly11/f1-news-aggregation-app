@@ -18,6 +18,7 @@ dotenv.config();
 
 const reddit = getAuthorizationToken();
 
+console.log(reddit);
 // //Cron job to run every day at 11pm 
 // cron.schedule('0 23 * * *',  () => {
 //   generateReportForDay();
