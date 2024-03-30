@@ -39,7 +39,7 @@ function getAuthorizationToken(){
   
 }
 
-async function generateReportForDay(){
+export default async function generateReportForDay(){
   const postsToBeSummarized = await callRedditAPI();
  
 
@@ -92,6 +92,8 @@ async function callRedditAPI(){
 
 
 }
+
+// import { generateReportForDay } from 'index.js'
 
 
 app.use(cors());

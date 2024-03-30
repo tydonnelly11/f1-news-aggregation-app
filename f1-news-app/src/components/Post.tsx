@@ -14,7 +14,10 @@ type Articles = {
 }
 //Component for holding one days news articles
 export const Post = (props: Articles) => 
+
 {
+  console.log(props);
+  console.log(props.date)
   const datePart = props.date.split("T")[0];
   const [year, month, day] = datePart.split("-");
     

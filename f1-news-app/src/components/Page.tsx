@@ -20,6 +20,7 @@ type Articles = {
 export const Page = () => {
 
     const [data, setData] = useState<Articles[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const [currentPage, setCurrentPage] = useState(1); // Current page
     const totalPages = 1; // Total number of pages
@@ -27,15 +28,17 @@ export const Page = () => {
     
     useEffect(() => {
         const fetchPosts = async () => {
+          setLoading(true);
           try {
             const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/posts");
-            console.log(response);
-            
-            setData(response.data);
-            console.log(data);
-            
+            setData(response.data.map((item: { date_column: any; text_column: any; }) => ({
+                date: item.date_column,
+                summaries: item.text_column,
+              })));
           } catch (error) {
             console.error(error);
+          } finally {
+            setLoading(false);
           }
         };
     
@@ -51,12 +54,16 @@ export const Page = () => {
         setCurrentPage((prevCurrentPage) => Math.max(prevCurrentPage - 1, 1));
     };
 
+    if (loading) {
+        return <h1>Loading...</h1>;
+    } else {
+
     return (
         <div>
         <div>
         {
-        data.map((NewsForDay) => (
-            <Post date={NewsForDay.date} summaries={NewsForDay.summaries}/>
+        data.map((NewsForDay, index) => (
+            <Post key={index} date={NewsForDay.date} summaries={NewsForDay.summaries}/>
         ))
         }
 
@@ -70,4 +77,5 @@ export const Page = () => {
         </div>
         
     )
+    }
 }
