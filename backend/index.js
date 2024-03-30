@@ -1,23 +1,30 @@
-import express from 'express'
+import express, { json } from 'express'
 import cors from 'cors';
 import dotenv from 'dotenv'
 import snoowrap from 'snoowrap';
-import db from './db.js';
 import cron from 'node-cron';
+import connect from './db.js'; // Adjust the path as necessary
+import { sql } from '@vercel/postgres';
+import fetch from 'node-fetch';
 
 
 const app = express()
-const port = 3000
+const port = 3001
 dotenv.config();
 
 
-//Cron job to run every day at 11pm 
-cron.schedule('0 23 * * *',  () => {
-formatReport();
-});
+
 
 
 const reddit = getAuthorizationToken();
+
+//Cron job to run every day at 11pm 
+cron.schedule('0 23 * * *',  () => {
+  generateReportForDay();
+  
+
+  
+});
 
 //This function gets 0Auth token from Reddit
 function getAuthorizationToken(){
@@ -31,6 +38,42 @@ function getAuthorizationToken(){
 
   return reddit;
   
+}
+
+export default async function generateReportForDay(){
+  const postsToBeSummarized = await callRedditAPI();
+ 
+
+  
+const summarizedPosts = await summarizeWithDelay(postsToBeSummarized)
+console.log(summarizedPosts);
+formatReport(summarizedPosts);
+}
+
+function delay(duration) {
+  return new Promise(resolve => setTimeout(resolve, duration));
+}
+
+async function summarizeWithDelay(posts) {
+  const results = [];
+
+  for (let post of posts) {
+      try {
+          // Wait for the summary to be fetched
+          const summary = await summarizePostsFromUrl(post.url);
+          results.push({ title: post.title, summary });
+      } catch (error) {
+          // Handle any errors
+          results.push({ 
+              title: post.title, 
+              summary: `Could not generate summary, here is the articles URL for more reading ${post.url}` 
+          });
+      }
+      // Wait for 1/4 of a second (250 milliseconds) before processing the next post
+      await delay(5000);
+  }
+
+  return results;
 }
 
 //Calls API to get new posts from Reddit and filters them based on news and upvotes
@@ -75,35 +118,112 @@ app.get('/getRedditPosts', async (req, res) => {
   
 });
 
-function formatReport() {
+function formatReport(listOfPosts) {
   const now = new Date();
-  const formattedDate = now.toISOString().slice(0, 10).replace('T', ' '); //Make date format compatible with SQL
-  const text = "Fernando Alonso Eyeing Red Bull Seat for 2025: Fernando Alonso is reportedly making strong efforts to secure a seat at Red Bull Racing for the 2025 season, according to sources close to The Race. His interest suggests a potential shift in the driver market and Alonso''s aim for a competitive ride as his career progresses."
+  const formattedDate = now.toISOString().slice(0, 10).replace('T', ''); //Make date format compatible with SQL
 
-  savePostToDatabase(formattedDate, text);
+  savePostToDatabase(formattedDate, listOfPosts);
   
   
 }
 
-function savePostToDatabase(date, text) {
-  
-  const sql = `INSERT INTO f1_posts_summary (date_column, text_column) VALUES (?, ?)`;
-  db.run(sql, [date, text], (err) => {
-    if (err) {
-      return console.error(err.message);
+async function summarizePostsFromUrl(url){
+
+  const options = {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      Authorization: 'Bearer DGvwoPA498GcAz7DmTVTBqblwojI5B6l'
+    },
+    body: JSON.stringify({
+      sourceType: 'URL',
+      source: `${url}`,
+    })
+  };
+  try{
+    const response = await fetch('https://api.ai21.com/studio/v1/summarize', options);
+    if (!response.ok){
+      console.log('Failed to fetch summary:')
+      return `This article is behind a paywall or is a screenshot of a social media post, here is url to view the source instead: ${url}`;
     }
-    console.log("A new post has been saved to the database.");
-  });
+        const data = await response.json();
+        // Make sure you return something here after the async operation is complete
+        return data.summary; // Assuming the API returns an object with a 'summary' property
+    } 
+  catch (error) {
+        console.error('Failed to fetch summary:', error);
+        // Return a default value or throw, depending on how you want to handle errors
+        return "Error fetching summary";
+    }
+  }
+  
+
+
+
+
+
+async function savePostToDatabase(date, text) {
+  
+  const data = JSON.stringify(text);
+
+    try {
+        await sql`INSERT INTO f1_posts_summary_1 (date_column, text_column) VALUES (${date}, ${data})`;
+        console.log("Post saved to database");
+    } catch (error) {
+        console.error("Failed to save post to database", error);
+    }
+  
 }
+
+async function getDataFromDatabase() {
+  try {
+    const  rows = await sql`SELECT * FROM f1_posts_summary_1 ORDER BY date_column DESC`;
+    console.log(rows)
+    
+    return rows;
+  } catch (error) {
+    console.error("Failed to fetch posts from database", error);
+  }
+}
+
+
 
 app.get('/posts', (req, res) => {
-  const sql = `SELECT * FROM f1_posts_summary ORDER BY date_column DESC`;
-  db.all(sql, [], (err, rows) => {
-    if (err) {
-      console.error(err.message);
-      res.status(500).send("Error fetching posts from the database");
-      return;
-    }
-    res.json(rows);
+
+
+  getDataFromDatabase().then((result) => {
+    console.log(result);
+    res.send(result.rows)
   });
+
+
+  // formatReport();
+  // getDataFromDatabase();
+  // const sql = `SELECT * FROM f1_posts_summary ORDER BY date_column DESC`;
+  // try {
+  //   const {result} = client.query(sql);
+  //   res.json(result);
+  // } catch (error) {
+  //   console.error("Failed to fetch posts from database", error);
+  //   res.status(500).send("Error fetching posts");
+  // }
+
+
 });
+
+
+async function createTable(){
+  const client = await connect();
+  
+  try {
+    const result =
+      await client.sql`CREATE TABLE IF NOT EXISTS f1_posts_summary_1 (
+        date_column DATE PRIMARY KEY,
+        text_column JSONB NOT NULL
+      )`;
+    return console.log(result);
+  } catch (error) {
+    return console.log(error);
+  }
+}
