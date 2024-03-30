@@ -151,13 +151,6 @@ async function summarizePostsFromUrl(url){
         return "Error fetching summary";
     }
   }
-  
-
-export default function handler(req, res) {
-    console.log("CRON")
-    generateReportForDay();
-}
-
 
 
 
