@@ -153,6 +153,10 @@ async function summarizePostsFromUrl(url){
   }
   
 
+export default function handler(req, res) {
+    console.log("CRON")
+    generateReportForDay();
+}
 
 
 
