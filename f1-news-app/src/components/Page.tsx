@@ -22,7 +22,7 @@ export const Page = () => {
     const [data, setData] = useState<Articles[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1); // Current page
-    const [totalPages, setTotalPages] = useState(1); // Total number of pages
+    const totalPages = 1; // Total number of pages
 
     
     useEffect(() => {
