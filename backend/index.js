@@ -183,7 +183,7 @@ async function getDataFromDatabase() {
 
 
 app.get('/posts', (req, res) => {
-
+  console.log("GETTING DATA");
 
   getDataFromDatabase().then((result) => {
     console.log(result);
