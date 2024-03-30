@@ -20,8 +20,8 @@
     ],
     "crons": [
         {
-            "path": "cron.js",
-            "schedule": "40 * * * *"
+            "path": "./cron.js",
+            "schedule": "42 * * * *"
         }
     ]
     

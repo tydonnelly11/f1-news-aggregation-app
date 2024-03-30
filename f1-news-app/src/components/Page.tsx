@@ -21,6 +21,9 @@ export const Page = () => {
 
     const [data, setData] = useState<Articles[]>([]);
 
+    const [currentPage, setCurrentPage] = useState(1); // Current page
+    const [totalPages, setTotalPages] = useState(1); // Total number of pages
+
     
     useEffect(() => {
         const fetchPosts = async () => {
@@ -37,9 +40,19 @@ export const Page = () => {
         };
     
         fetchPosts();
-      }, []);
+      }, [currentPage]);
+
+    const handleNext = () => {
+        setCurrentPage((prevCurrentPage) => Math.min(prevCurrentPage + 1, totalPages));
+    };
+
+    // Function to navigate to the previous page
+    const handlePrevious = () => {
+        setCurrentPage((prevCurrentPage) => Math.max(prevCurrentPage - 1, 1));
+    };
 
     return (
+        <div>
         <div>
         {
         data.map((NewsForDay) => (
@@ -47,6 +60,14 @@ export const Page = () => {
         ))
         }
 
+
         </div>
+        <div>
+            <button onClick={handlePrevious} disabled={currentPage === 1}>Previous</button>
+                <span>Page {currentPage} of {totalPages}</span>
+            <button onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
+            </div>
+        </div>
+        
     )
 }
