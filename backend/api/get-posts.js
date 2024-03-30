@@ -2,6 +2,8 @@ import dotenv from 'dotenv'
 import snoowrap from 'snoowrap';
 import { sql } from '@vercel/postgres';
 import fetch from 'node-fetch';
+import { VercelRequest, VercelResponse } from '@vercel/node';
+
 dotenv.config();
 
 const reddit = getAuthorizationToken();
@@ -27,14 +29,17 @@ function getAuthorizationToken(){
   return reddit;
   
 }
-export async function generateReportForDay(){
-  const postsToBeSummarized = await callRedditAPI();
+export default async function (VercelRequest, VercelResponse) {
+  console.log("CRON");
+  const reddit = getAuthorizationToken();
+
+  const postsToBeSummarized = await callRedditAPI(reddit);
  
 
   
-const summarizedPosts = await summarizeWithDelay(postsToBeSummarized)
-console.log(summarizedPosts);
-formatReport(summarizedPosts);
+  const summarizedPosts = await summarizeWithDelay(postsToBeSummarized)
+  console.log(summarizedPosts);
+  formatReport(summarizedPosts);
 }
 
 function delay(duration) {
@@ -64,7 +69,7 @@ async function summarizeWithDelay(posts) {
 }
 
 //Calls API to get new posts from Reddit and filters them based on news and upvotes
-async function callRedditAPI(){
+async function callRedditAPI(reddit){
   const oneDayAgo = Math.floor(Date.now() / 1000) - (24 * 60 * 60); // Current time in Unix timestamp minus 24 hours
   
 
