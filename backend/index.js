@@ -18,13 +18,13 @@ dotenv.config();
 
 const reddit = getAuthorizationToken();
 
-//Cron job to run every day at 11pm 
-cron.schedule('0 23 * * *',  () => {
-  generateReportForDay();
+// //Cron job to run every day at 11pm 
+// cron.schedule('0 23 * * *',  () => {
+//   generateReportForDay();
   
 
   
-});
+// });
 
 //This function gets 0Auth token from Reddit
 function getAuthorizationToken(){
