@@ -3,7 +3,6 @@ import cors from 'cors';
 import dotenv from 'dotenv'
 import snoowrap from 'snoowrap';
 import cron from 'node-cron';
-import connect from './db.js'; // Adjust the path as necessary
 import { sql } from '@vercel/postgres';
 import fetch from 'node-fetch';
 
