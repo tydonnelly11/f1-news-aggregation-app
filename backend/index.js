@@ -38,8 +38,7 @@ function getAuthorizationToken(){
   return reddit;
   
 }
-
-export default async function generateReportForDay(){
+async function generateReportForDay(){
   const postsToBeSummarized = await callRedditAPI();
  
 
