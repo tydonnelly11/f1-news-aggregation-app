@@ -1,6 +1,6 @@
-// import { generateReportForDay } from 'index.js'
+import { generateReportForDay } from 'get-posts.js'
 
-// export default function handler(req, res) {
-//     console.log("CRON")
-//     generateReportForDay();
-// }
+export default function handler(req, res) {
+    console.log("CRON")
+    generateReportForDay();
+}
