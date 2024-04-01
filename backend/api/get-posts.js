@@ -38,6 +38,7 @@ export default async function GetPost() {
   const summarizedPosts = await summarizeWithDelay(postsToBeSummarized)
   console.log(summarizedPosts);
   formatReport(summarizedPosts);
+  return summarizedPosts;
 }
 
 function delay(duration) {
