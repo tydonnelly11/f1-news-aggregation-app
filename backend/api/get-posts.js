@@ -62,7 +62,7 @@ async function summarizeWithDelay(posts) {
           });
       }
       // Wait for 1/4 of a second (250 milliseconds) before processing the next post
-      await delay(250);
+      await delay(1000);
   }
 
   return results;
