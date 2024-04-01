@@ -17,7 +17,7 @@
         { "source": "/(.*)", "destination": "/index.js" }
     ],
     "functions": {
-        "/api/get-posts" : {
+        "./api/get-posts.js" : {
             "maxDuration" : 50
         }
     },
