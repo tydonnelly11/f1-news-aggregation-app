@@ -28,7 +28,7 @@ function getAuthorizationToken(){
   return reddit;
   
 }
-export default async function GetPost() {
+export default async function GetPost(res,req) {
   const reddit = getAuthorizationToken();
 
   const postsToBeSummarized = await callRedditAPI(reddit);
@@ -38,7 +38,8 @@ export default async function GetPost() {
   const summarizedPosts = await summarizeWithDelay(postsToBeSummarized)
   console.log(summarizedPosts);
   formatReport(summarizedPosts);
-  return summarizedPosts;
+
+  res.send("Gathered Posts");
 }
 
 function delay(duration) {
