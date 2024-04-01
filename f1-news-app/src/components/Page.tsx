@@ -30,7 +30,7 @@ export const Page = () => {
         const fetchPosts = async () => {
           setLoading(true);
           try {
-            const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/posts");
+            const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/posts");
             setData(response.data.map((item: { date_column: any; text_column: any; }) => ({
                 date: item.date_column,
                 summaries: item.text_column,
