@@ -29,7 +29,6 @@ function getAuthorizationToken(){
   
 }
 export default async function GetPost() {
-  console.log("CRON");
   const reddit = getAuthorizationToken();
 
   const postsToBeSummarized = await callRedditAPI(reddit);

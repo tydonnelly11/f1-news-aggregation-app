@@ -36,6 +36,7 @@ app.get('/getRedditPosts', async (req, res) => {
 });
 
 app.get('/api/get-posts', (req, res) => {
+  console.log("GETTING POSTS")
   GetPost();
   console.log("DONE");
 

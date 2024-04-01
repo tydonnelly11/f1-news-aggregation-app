@@ -21,7 +21,8 @@
     "crons": [
         {
             "path": "/api/get-posts",
-            "schedule": "0 23 * * *"
+            "schedule": "0 23 * * *",
+            "maxDuration": 200
         }
     ]
     
