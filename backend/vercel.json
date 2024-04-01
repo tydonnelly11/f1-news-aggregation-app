@@ -18,11 +18,17 @@
     "rewrites": [
         { "source": "/(.*)", "destination": "/index.js" }
     ],
+    "functions" : [
+        {
+        "api/get-posts": {
+            "maxDuration": 200
+          } 
+        }
+    ],
     "crons": [
         {
             "path": "/api/get-posts",
-            "schedule": "0 23 * * *",
-            "maxDuration": 200
+            "schedule": "0 23 * * *"
         }
     ]
     
