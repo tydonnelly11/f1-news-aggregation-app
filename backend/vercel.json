@@ -19,6 +19,9 @@
     "functions": {
         "api/get-posts.js" : {
             "maxDuration" : 50
+        },
+        "api/posts.js" : {
+            
         }
     },
     "crons": [
