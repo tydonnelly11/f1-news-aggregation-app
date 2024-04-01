@@ -15,10 +15,13 @@
             ]
         }
     ],
-   
+    "rewrites": [
+        { "source": "/(.*)", "destination": "/index.js" },
+        { "source": "/api/get-posts", "destination": "/get-posts.js" }
+    ],
     "crons": [
         {
-            "path": "/api/get-posts",
+            "path": "/api/get-posts.js",
             "schedule": "0 23 * * *"
         }
     ]
