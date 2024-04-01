@@ -18,14 +18,14 @@
     ],
     "functions": {
         "api/get-posts.js" : {
-            "maxDuration" : 50
+            "maxDuration" : 100
         }
         
     },
     "crons": [
         {
             "path": "/api/get-posts",
-            "schedule": "0 1 * * *"
+            "schedule": "0 23 * * *"
         }
     ]
     
