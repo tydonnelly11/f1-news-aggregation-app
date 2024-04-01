@@ -1,11 +1,6 @@
 {
     "version" :2,
-    "builds" : [{
-        "src": "./index.js", "use": "@vercel/node", "config" : {
-            "maxDuration" : "200"
-        }
-
-    }],
+    
     
     "headers" : [
         {
@@ -21,6 +16,11 @@
     "rewrites": [
         { "source": "/(.*)", "destination": "/index.js" }
     ],
+    "functions": {
+        "/api/get-posts" : {
+            "maxDuration" : 50
+        }
+    },
     "crons": [
         {
             "path": "/api/get-posts",
