@@ -2,7 +2,6 @@ import dotenv from 'dotenv'
 import snoowrap from 'snoowrap';
 import { sql } from '@vercel/postgres';
 import fetch from 'node-fetch';
-import { VercelRequest, VercelResponse } from '@vercel/node';
 
 dotenv.config();
 
@@ -29,7 +28,7 @@ function getAuthorizationToken(){
   return reddit;
   
 }
-export default async function GetPost(VercelRequest, VercelResponse) {
+export default async function GetPost() {
   console.log("CRON");
   const reddit = getAuthorizationToken();
 
