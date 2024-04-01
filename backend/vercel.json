@@ -20,7 +20,7 @@
     ],
     "crons": [
         {
-            "path": "/api/get-posts",
+            "path": "/api/get-posts.js",
             "schedule": "0 23 * * *"
         }
     ]
