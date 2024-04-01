@@ -5,7 +5,7 @@ import snoowrap from 'snoowrap';
 import cron from 'node-cron';
 import { sql } from '@vercel/postgres';
 import fetch from 'node-fetch';
-import GetPost from './api/get-posts';
+import GetPost from './api/get-posts.js';
 
 
 const app = express()
