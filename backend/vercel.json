@@ -15,9 +15,7 @@
             ]
         }
     ],
-    "rewrites": [
-        { "source": "/(.*)", "destination": "/index.js" }
-    ],
+   
     "crons": [
         {
             "path": "/api/get-posts.js",
