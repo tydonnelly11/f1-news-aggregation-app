@@ -19,7 +19,6 @@
         { "source": "/(.*)", "destination": "/index.js" }
     ],
     "functions" : {
-        
         "api/get-posts": {
             "maxDuration": 200
           } 
