@@ -5,6 +5,7 @@ import snoowrap from 'snoowrap';
 import cron from 'node-cron';
 import { sql } from '@vercel/postgres';
 import fetch from 'node-fetch';
+import GetPost from './api/get-posts';
 
 
 const app = express()
@@ -32,6 +33,12 @@ app.get('/getRedditPosts', async (req, res) => {
   // generateReportForDay();
   console.log("DONE");
   
+});
+
+app.get('/api/get-posts', (req, res) => {
+  GetPost();
+  console.log("DONE");
+
 });
 
 

@@ -29,7 +29,7 @@ function getAuthorizationToken(){
   return reddit;
   
 }
-export default async function (VercelRequest, VercelResponse) {
+export default async function GetPost(VercelRequest, VercelResponse) {
   console.log("CRON");
   const reddit = getAuthorizationToken();
 
