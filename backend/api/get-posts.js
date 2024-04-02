@@ -39,7 +39,8 @@ export default async function GetPost(res,req) {
   console.log(summarizedPosts);
   formatReport(summarizedPosts);
 
-  res.send("Gathered Posts");
+  return new Response('Posts have been summarized and saved to the database')
+
 }
 
 function delay(duration) {
