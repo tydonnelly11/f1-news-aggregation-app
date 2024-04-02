@@ -62,8 +62,8 @@ async function summarizeWithDelay(posts) {
               summary: `Could not generate summary, here is the articles URL for more reading ${post.url}` 
           });
       }
-      // Wait for 1/4 of a second (250 milliseconds) before processing the next post
-      await delay(3000);
+      // Wait for 2.5 of a second (250 milliseconds) before processing the next post
+      await delay(2500);
   }
 
   return results;
