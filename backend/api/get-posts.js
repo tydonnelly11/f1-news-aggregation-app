@@ -3,17 +3,10 @@ import snoowrap from 'snoowrap';
 import { sql } from '@vercel/postgres';
 import fetch from 'node-fetch';
 
-dotenv.config();
-
-const reddit = getAuthorizationToken();
-
-// //Cron job to run every day at 11pm 
-// cron.schedule('0 23 * * *',  () => {
-//   generateReportForDay();
-  
+dotenv.config();  
 
   
-// });
+
 
 //This function gets 0Auth token from Reddit
 function getAuthorizationToken(){
@@ -28,6 +21,7 @@ function getAuthorizationToken(){
   return reddit;
   
 }
+//Vercel serverless function
 export default async function GetPost(res,req) {
   const reddit = getAuthorizationToken();
 
@@ -43,10 +37,12 @@ export default async function GetPost(res,req) {
 
 }
 
+//This function waits for 2.5 seconds before processing the next post
 function delay(duration) {
   return new Promise(resolve => setTimeout(resolve, duration));
 }
 
+//Summarizes the posts with a delay of 2.5 seconds
 async function summarizeWithDelay(posts) {
   const results = [];
 
@@ -54,15 +50,14 @@ async function summarizeWithDelay(posts) {
       try {
           // Wait for the summary to be fetched
           const summary = await summarizePostsFromUrl(post.url);
-          results.push({ title: post.title, summary });
+          results.push({ title: post.title, summary, url: post.url});
       } catch (error) {
-          // Handle any errors
+          //If the article is behind a paywall or is a screenshot of a social media post, the summary will be the URL
           results.push({ 
               title: post.title, 
               summary: `Could not generate summary, here is the articles URL for more reading ${post.url}` 
           });
       }
-      // Wait for 2.5 of a second (250 milliseconds) before processing the next post
       await delay(2500);
   }
 
@@ -75,20 +70,21 @@ async function callRedditAPI(reddit){
   
 
   const posts = await reddit.getSubreddit('formula1').getNew({limit: 100});
-  const recentPosts = posts.filter(post => post.created_utc >= oneDayAgo);
-  const filteredPosts = recentPosts.filter(post => post.link_flair_text === ':post-news: News');
-  const sortedPosts = filteredPosts.sort((a, b) => b.ups - a.ups);
-  const postMedias = sortedPosts.map(post => ({ title: post.title, url: post.url }));
+  const recentPosts = posts.filter(post => post.created_utc >= oneDayAgo); //Get posts from last day
+  const filteredPosts = recentPosts.filter(post => post.link_flair_text === ':post-news: News'); //Only posts flagged as news
+  const sortedPosts = filteredPosts.sort((a, b) => b.ups - a.ups); //Sort by upvotes
+  const postMedias = sortedPosts.map(post => ({ title: post.title, url: post.url })); //Map the title and URL
 
   
-   // Assuming you want to display titles for simplicity
   return postMedias;
 
 
 }
 
+//Formats date to be saved in the database
 function formatReport(listOfPosts) {
     const now = new Date();
+    now.setDate(now.getDate() - 1); //Get the date of yesterday
     const formattedDate = now.toISOString().slice(0, 10).replace('T', ''); //Make date format compatible with SQL
   
     savePostToDatabase(formattedDate, listOfPosts);
@@ -103,7 +99,7 @@ function formatReport(listOfPosts) {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
-        Authorization: 'Bearer DGvwoPA498GcAz7DmTVTBqblwojI5B6l'
+        Authorization: `Bearer ${process.env.AI21_API_KEY}`
       },
       body: JSON.stringify({
         sourceType: 'URL',
@@ -117,18 +113,16 @@ function formatReport(listOfPosts) {
         return `This article is behind a paywall or is a screenshot of a social media post, here is url to view the source instead: ${url}`;
       }
           const data = await response.json();
-          // Make sure you return something here after the async operation is complete
-          return data.summary; // Assuming the API returns an object with a 'summary' property
+          return data.summary; 
       } 
     catch (error) {
           console.error('Failed to fetch summary:', error);
-          // Return a default value or throw, depending on how you want to handle errors
           return "Error fetching summary";
       }
     }
   
   
-  
+  //Saves the post to the database
   async function savePostToDatabase(date, text) {
     
     const data = JSON.stringify(text);

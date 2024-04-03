@@ -1,6 +1,4 @@
-
-
-
+import './component.css'
 
 type Articles = {
   date : string,
@@ -25,13 +23,13 @@ export const Post = (props: Articles) =>
     
   return (
     <div>
-      <h3>Start of news for {formattedDate}</h3>
+      <h3 className="date-text">Start of news for {formattedDate}</h3>
     <div>
     {
     props.summaries.map((message, index) => (
       <div key={index}>
-      <h4>{message.title}</h4>
-      <p>{message.summary}</p>
+      <span className="title-text">{message.title}</span>
+      <p className="summary-text">{message.summary}</p>
       </div>
       ))
     }    

@@ -15,8 +15,6 @@ type Articles = {
     
 }
 
-
-
 export const Page = () => {
 
     const [data, setData] = useState<Articles[]>([]);
