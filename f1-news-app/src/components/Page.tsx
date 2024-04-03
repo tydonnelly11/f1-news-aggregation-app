@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, RefObject, createRef } from "react";
 import axios from "axios"
 import { Post } from "./Post";
 
@@ -19,9 +19,30 @@ export const Page = () => {
 
     const [data, setData] = useState<Articles[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const postRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const [totalPages, setTotalPages] = useState<number>(1);
 
     const [currentPage, setCurrentPage] = useState(1); // Current page
-    const totalPages = 1; // Total number of pages
+
+    useEffect(() => {
+      const getTotalPosts = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/get-total-post-number");
+          console.log(response.data);
+          const weekCount = Math.floor(response.data / 7) + 1;
+          setTotalPages(weekCount);
+          
+
+          
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      getTotalPosts();
+    }, [])
 
     
     useEffect(() => {
@@ -30,18 +51,34 @@ export const Page = () => {
           try {
             const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/posts");
             setData(response.data.map((item: { date_column: any; text_column: any; }) => ({
-                date: item.date_column,
+              date: new Date(item.date_column).toLocaleDateString('en-US', {
+                month: '2-digit', // Use two digits for the month
+                day: '2-digit'    // Use two digits for the day
+              }),
                 summaries: item.text_column,
               })));
+
+              postRefs.current = response.data.map((_: any, i: number) => postRefs.current[i] || null);
+            
+
+
           } catch (error) {
             console.error(error);
           } finally {
             setLoading(false);
           }
         };
+      
     
         fetchPosts();
       }, [currentPage]);
+
+  const scrollToPost = (index: number) => {
+    postRefs.current[index]?.scrollIntoView({
+      behavior: 'smooth',
+          block: 'start',
+        });
+      };
 
     const handleNext = () => {
         setCurrentPage((prevCurrentPage) => Math.min(prevCurrentPage + 1, totalPages));
@@ -53,15 +90,29 @@ export const Page = () => {
     };
 
     if (loading) {
-        return <h1>Loading...</h1>;
+        return <div className="loading-page">
+            <h1>Loading posts...</h1>
+            <img className="loading-gif" src="/loading-gif.gif"></img>
+        </div>;
     } else {
 
     return (
+      
         <div>
+            <nav className="navbar">
+          {data.map((article, index) => (
+
+            <button className="nav-button" key={index} onClick={() => scrollToPost(index)}>
+              {article.date}
+            </button>
+          ))}
+        </nav>
         <div>
         {
         data.map((NewsForDay, index) => (
-            <Post key={index} date={NewsForDay.date} summaries={NewsForDay.summaries}/>
+          <div ref={el => postRefs.current[index] = el} key={index}>
+          <Post date={NewsForDay.date} summaries={NewsForDay.summaries} />
+        </div>
         ))
         }
 
