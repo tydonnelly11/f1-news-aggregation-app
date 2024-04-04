@@ -1,11 +1,11 @@
 .title-text{
-    color: #DC143C;
+    color: #e10600;
     font-size: 1.5em;
     font-weight: bold;
     text-align: left;
-    width: 80%;
+    width: 65%;
     position: relative;
-    left: 10%;
+    left: 20%;
 }
 
 .post-container{
@@ -14,13 +14,13 @@
 }
 
 .summary-text{
-    color: #C0C0C0;
+    color: #040f0f;
     font-size: 1em;
     font-weight: bold;
     text-align: left;
-    width: 80%;
+    width: 65%;
     position: relative;
-    left: 10%;
+    left: 20%;
 }
 .loading-page{
     display: flex;
@@ -33,29 +33,80 @@
 
 .loading-gif{
     height: auto;
-    width: 25%;
+    width: 20%;
 }
 
 .date-text{
-    color: #C0C0C0;
+    color: black;
     font-size: 1.5em;
     font-weight: bold;
     text-align: center;
-    width: 80%;
+    width: 70%;
     position: relative;
-    left: 10%;
+    left: 20%;
 
 }
 
 .navbar{
     position: fixed;
     left: 0;
+    width: 200px;
+    top: 0;
+    padding-top: 5%;
+    /* top: 150px; */
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: #e10600;
 }
 .nav-button{
     text-decoration: underline;
-    background-color: #040f0f;
-    color: #DC143C;
+    background-color: #e10600;
+    color: white;
     border: 1px solid #DC143C;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.countdown{
+    /* background-color: #006341; */
+    color: #0B0B0B;
+    font-size: 2.5em;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    left: 2.5%;
+    position: relative;
+}
+.navbar-title{
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    position: relative;
+
+}
+
+.link{
+    color: #1E90FF;
+    font-size: 1em;
+    text-align: left;
+    width: 70%;
+    position: relative;
+    left: 20%;
+}
+
+.link:hover{
+    color: #e10600;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1150px) {
+    
+    .navbar{
+        display: none;
+    }
+   
+    
 }

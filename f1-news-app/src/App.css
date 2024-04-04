@@ -1,11 +1,29 @@
 #root {
   
   text-align: center;
-  background-color: #040f0f;
+  /* background-color: #040f0f; */
+  background-image: 
+    linear-gradient(rgba(256, 256, 256, 0.90), rgba(256, 256, 256, 0.90)),
+    url('/background-img-4.avif');
+  background-attachment: fixed;
+  background-size: cover;
 }
 
+/* #root::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  filter: blur(8px);
+
+} */
+
 .title{
-  color: #DC143C;
+  color: #e10600;
   font-size: 1.5em;
   font-weight: bold;
   text-align: center;

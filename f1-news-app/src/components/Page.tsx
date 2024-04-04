@@ -58,7 +58,7 @@ export const Page = () => {
                 summaries: item.text_column,
               })));
 
-              postRefs.current = response.data.map((_: any, i: number) => postRefs.current[i] || null);
+              postRefs.current = response.data.map((_: any, i: number) => postRefs.current[i] || null); //Takes each post and assigns it to a ref
             
 
 
@@ -73,6 +73,8 @@ export const Page = () => {
         fetchPosts();
       }, [currentPage]);
 
+
+  //Scrolls to date when clicked
   const scrollToPost = (index: number) => {
     postRefs.current[index]?.scrollIntoView({
       behavior: 'smooth',
@@ -100,6 +102,7 @@ export const Page = () => {
       
         <div>
             <nav className="navbar">
+              <p className="navbar-title">Dates</p>
           {data.map((article, index) => (
 
             <button className="nav-button" key={index} onClick={() => scrollToPost(index)}>

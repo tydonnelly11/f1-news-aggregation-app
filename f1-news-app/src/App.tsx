@@ -1,5 +1,6 @@
 
 import { Page } from './components/Page'
+import { Countdown } from './components/Countdown'
 import './App.css'
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
     <>
       <div className="App">
         <header className="App-header">
-          <h1 className='title'>F1 News</h1>
+          <Countdown/>
         </header>
         <Page />
       </div>

@@ -5,7 +5,8 @@ type Articles = {
   summaries : [
     {
       title: string,
-      summary: string
+      summary: string,
+      url?: string
     }
   ]
   
@@ -24,6 +25,7 @@ export const Post = (props: Articles) =>
     props.summaries.map((message, index) => (
       <div className="post-container" key={index}>
       <span className="title-text">{message.title}</span>
+      <a href={message.url} target='_blank' className="link">Link to source</a>
       <p className="summary-text">{message.summary}</p>
       </div>
       ))

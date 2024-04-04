@@ -110,7 +110,7 @@ function formatReport(listOfPosts) {
       const response = await fetch('https://api.ai21.com/studio/v1/summarize', options);
       if (!response.ok){
         console.log('Failed to fetch summary:')
-        return `This article is behind a paywall or is a screenshot of a social media post, here is url to view the source instead: ${url}`;
+        return `This article is behind a paywall, is in a language other than english or is a screenshot of a social media post, please click the url above to view it.`;
       }
           const data = await response.json();
           return data.summary; 
