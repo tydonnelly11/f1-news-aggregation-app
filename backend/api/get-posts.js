@@ -25,8 +25,8 @@ function getAuthorizationToken(){
 export default async function GetPost(res,req) {
   const reddit = getAuthorizationToken();
 
-  const [postsToBeSummarized, TwitterPosts] = await callRedditAPI(reddit);
-  console.log(postsToBeSummarized);
+  const { nonTwitterPosts, TwitterPosts } = await callRedditAPI(reddit);
+  console.log(nonTwitterPosts);
   console.log("GAP")
   console.log(TwitterPosts);
  
@@ -77,8 +77,8 @@ async function callRedditAPI(reddit){
   const filteredPosts = recentPosts.filter(post => post.link_flair_text === ':post-news: News'); //Only posts flagged as news
   const sortedPosts = filteredPosts.sort((a, b) => b.ups - a.ups); //Sort by upvotes
   const postMedias = sortedPosts.map(post => ({ title: post.title, url: post.url })); //Map the title and URL
-  console.log(postMedias);
-  console.log("POST")
+  // console.log(postMedias);
+  // console.log("POST")
 
 
   const regexTwitter = /https:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
@@ -94,7 +94,7 @@ async function callRedditAPI(reddit){
 
 
   
-  return nonTwitterPosts, TwitterPosts;
+  return {nonTwitterPosts, TwitterPosts};
 
 
 }
