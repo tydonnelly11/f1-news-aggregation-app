@@ -21,8 +21,8 @@ export const Page = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const postRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [totalPages, setTotalPages] = useState<number>(1);
-    const [startDate, setStartDate] = useState<String>(""); // Start index of the current page
-    const [endDate, setEndDate] = useState<String>(""); // End index of the current page
+    const [startDate, setStartDate] = useState<Date>(new Date()); // Start index of the current page
+    const [endDate, setEndDate] = useState<Date>(new Date()); // End index of the current page
 
     const [currentPage, setCurrentPage] = useState(1); // Current page
 
@@ -54,8 +54,8 @@ export const Page = () => {
 
           const formattedDate = currentDate.toISOString().split('T')[0] + ' 00:00:00';
           const formattedWeekAgoDate = weekAgoDate.toISOString().split('T')[0] + ' 00:00:00';
-          setEndDate(weekAgoDate.toISOString);
-          setStartDate(currentDate.toISOString);
+          setEndDate(weekAgoDate);
+          setStartDate(currentDate);
           console.log(formattedDate, formattedWeekAgoDate);
           setLoading(true);
           try {
@@ -110,11 +110,15 @@ export const Page = () => {
 
     const handleNext = () => {
         setCurrentPage((prevCurrentPage) => Math.min(prevCurrentPage + 1, totalPages));
+        setStartDate(new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000));
+        setEndDate(new Date(endDate.getTime() + 7 * 24 * 60 * 60 * 1000));
     };
 
     // Function to navigate to the previous page
     const handlePrevious = () => {
         setCurrentPage((prevCurrentPage) => Math.max(prevCurrentPage - 1, 1));
+        setStartDate(new Date(startDate.getTime() - 7 * 24 * 60 * 60 * 1000));
+        setEndDate(new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000));
     };
 
     if (loading) {
