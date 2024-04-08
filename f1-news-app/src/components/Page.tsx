@@ -61,8 +61,8 @@ export const Page = () => {
           try {
             const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/posts", {
               params: {
-                start: startDate.toISOString().split('T')[0] + ' 00:00:00',
-                end: endDate.toISOString().split('T')[0] + ' 00:00:00',
+                end: startDate.toISOString().split('T')[0] + ' 00:00:00',
+                start: endDate.toISOString().split('T')[0] + ' 00:00:00',
               }
             
             });
