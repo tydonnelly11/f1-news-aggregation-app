@@ -77,6 +77,8 @@ async function callRedditAPI(reddit){
   const filteredPosts = recentPosts.filter(post => post.link_flair_text === ':post-news: News'); //Only posts flagged as news
   const sortedPosts = filteredPosts.sort((a, b) => b.ups - a.ups); //Sort by upvotes
   const postMedias = sortedPosts.map(post => ({ title: post.title, url: post.url })); //Map the title and URL
+  console.log(postMedias);
+  console.log("POST")
 
 
   const regexTwitter = /https:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
