@@ -25,7 +25,9 @@ function getAuthorizationToken(){
 export default async function GetPost(res,req) {
   const reddit = getAuthorizationToken();
 
-  const postsToBeSummarized = await callRedditAPI(reddit);
+  const [postsToBeSummarized, TwitterPosts] = await callRedditAPI(reddit);
+  console.log(postsToBeSummarized);
+  console.log(TwitterPosts);
  
 
   
@@ -75,19 +77,32 @@ async function callRedditAPI(reddit){
   const sortedPosts = filteredPosts.sort((a, b) => b.ups - a.ups); //Sort by upvotes
   const postMedias = sortedPosts.map(post => ({ title: post.title, url: post.url })); //Map the title and URL
 
+
+  const regexTwitter = /https:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
+  const regexX = /https:\/\/x\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
+
   
-  return postMedias;
+  const TwitterPosts = postMedias.filter(post => post.url.match(regexTwitter) || post.url.match(regexX));
+  const nonTwitterPosts = postMedias.filter(post => !post.url.match(regexTwitter) && !post.url.match(regexX));
+  
+
+  
+
+
+
+  
+  return nonTwitterPosts, TwitterPosts;
 
 
 }
 
 //Formats date to be saved in the database
-function formatReport(listOfPosts) {
+function formatReport(summaries, tweets) {
     const now = new Date();
     now.setDate(now.getDate() - 1); //Get the date of yesterday
     const formattedDate = now.toISOString().slice(0, 10).replace('T', ''); //Make date format compatible with SQL
   
-    savePostToDatabase(formattedDate, listOfPosts);
+    savePostToDatabase(formattedDate, summaries, tweets);
     
     
   }
@@ -123,8 +138,9 @@ function formatReport(listOfPosts) {
   
   
   //Saves the post to the database
-  async function savePostToDatabase(date, text) {
+  async function savePostToDatabase(date, summaries, tweets) {
     
+    const text = { summaries, tweets };
     const data = JSON.stringify(text);
   
       try {

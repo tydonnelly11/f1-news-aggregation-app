@@ -1,4 +1,5 @@
 import './component.css'
+// import TweetEmbed from './TwitterEmbedd'
 
 type Articles = {
   date : string,
@@ -15,15 +16,21 @@ type Articles = {
 //Component for holding one days news articles
 export const Post = (props: Articles) => 
 
+
 {
+
+// const regex = /https:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
+// const url = "https://twitter.com/wbuxtonofficial/status/1776968897729884420";
 
   return (
     <div>
       <h3 className="date-text">Start of news for {props.date}</h3>
     <div>
     {
-    props.summaries.map((message, index) => (
+    props.summaries.map((message, index) => 
+      (
       <div className="post-container" key={index}>
+      {/* {(regex.test(message.url)) && <TweetEmbed tweetUrl={message.url} />} */}
       <span className="title-text">{message.title}</span>
       <a href={message.url} target='_blank' className="link">Link to source</a>
       <p className="summary-text">{message.summary}</p>

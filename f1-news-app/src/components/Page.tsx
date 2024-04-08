@@ -28,8 +28,6 @@ export const Page = () => {
 
     
 
-    // const formattedDate = startDate.toISOString().split('T')[0] + ' 00:00:00';
-    // const formattedWeekAgoDate = endDate.toISOString().split('T')[0] + ' 00:00:00';
     
 
     useEffect(() => {
@@ -61,8 +59,8 @@ export const Page = () => {
           try {
             const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/posts", {
               params: {
-                end: startDate.toISOString().split('T')[0] + ' 00:00:00',
-                start: endDate.toISOString().split('T')[0] + ' 00:00:00',
+                end: startDate.toISOString().split('T')[0] + ' 00:00:00', //End of current week
+                start: endDate.toISOString().split('T')[0] + ' 00:00:00', //Start of current week
               }
             
             });
@@ -133,7 +131,7 @@ export const Page = () => {
         <div>
             <nav className="navbar">
               <p className="navbar-title">Dates for {startDate.toDateString()} to {endDate.toDateString()} </p>
-              <div>
+              <div className="nav-button-group">
                 {data.map((article, index) => (
 
                   <button className="nav-button" key={index} onClick={() => scrollToPost(index)}>
