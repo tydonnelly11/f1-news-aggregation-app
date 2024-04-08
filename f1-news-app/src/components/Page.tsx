@@ -22,9 +22,15 @@ export const Page = () => {
     const postRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [startDate, setStartDate] = useState<Date>(new Date()); // Start index of the current page
-    const [endDate, setEndDate] = useState<Date>(new Date()); // End index of the current page
+    const [endDate, setEndDate] = useState<Date>(new Date(startDate.getTime() - 7 * 24 * 60 * 60 * 1000)); // End index of the current page
 
     const [currentPage, setCurrentPage] = useState(1); // Current page
+
+    
+
+    // const formattedDate = startDate.toISOString().split('T')[0] + ' 00:00:00';
+    // const formattedWeekAgoDate = endDate.toISOString().split('T')[0] + ' 00:00:00';
+    
 
     useEffect(() => {
       const getTotalPosts = async () => {
@@ -48,21 +54,15 @@ export const Page = () => {
 
     
     useEffect(() => {
+      
         const fetchPosts = async () => {
-          const currentDate = new Date();
-          const weekAgoDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
-
-          const formattedDate = currentDate.toISOString().split('T')[0] + ' 00:00:00';
-          const formattedWeekAgoDate = weekAgoDate.toISOString().split('T')[0] + ' 00:00:00';
-          setEndDate(weekAgoDate);
-          setStartDate(currentDate);
-          console.log(formattedDate, formattedWeekAgoDate);
+          
           setLoading(true);
           try {
             const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/posts", {
               params: {
-                start: formattedWeekAgoDate,
-                end: formattedDate,
+                start: startDate.toISOString().split('T')[0] + ' 00:00:00',
+                end: endDate.toISOString().split('T')[0] + ' 00:00:00',
               }
             
             });
@@ -110,15 +110,15 @@ export const Page = () => {
 
     const handleNext = () => {
         setCurrentPage((prevCurrentPage) => Math.min(prevCurrentPage + 1, totalPages));
-        setStartDate(new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000));
-        setEndDate(new Date(endDate.getTime() + 7 * 24 * 60 * 60 * 1000));
+        setStartDate(new Date(startDate.getTime() - 7 * 24 * 60 * 60 * 1000));
+        setEndDate(new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000));
     };
 
     // Function to navigate to the previous page
     const handlePrevious = () => {
         setCurrentPage((prevCurrentPage) => Math.max(prevCurrentPage - 1, 1));
-        setStartDate(new Date(startDate.getTime() - 7 * 24 * 60 * 60 * 1000));
-        setEndDate(new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000));
+        setStartDate(new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000));
+        setEndDate(new Date(endDate.getTime() + 7 * 24 * 60 * 60 * 1000));
     };
 
     if (loading) {
