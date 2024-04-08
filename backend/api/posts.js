@@ -8,8 +8,8 @@ export default async function getDataFromDatabase(req, res) {
     try {
       const  rows = await sql`SELECT *
       FROM f1_posts_summary_1
-      WHERE date_column >= '${startDate}'
-      AND date_column <= '${endDate}';`;
+      WHERE date_column >= ${startDate}
+      AND date_column <= ${endDate};`;
       console.log(rows)
       res.send(rows.rows, rows.rowCount);
       
