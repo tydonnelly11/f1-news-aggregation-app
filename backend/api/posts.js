@@ -3,9 +3,10 @@ import { sql } from '@vercel/postgres';
 
 
 export default async function getDataFromDatabase(req, res) {
-  console.log(req)
     const startDate = req.query.start
     const endDate = req.query.end
+    console.log(startDate)
+    console.log(endDate)
     try {
       const  rows = await sql`SELECT *
       FROM f1_posts_summary_1
