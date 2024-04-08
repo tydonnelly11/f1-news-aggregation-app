@@ -61,8 +61,8 @@ export const Page = () => {
           try {
             const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/posts", {
               params: {
-                end: formattedWeekAgoDate,
-                start: formattedDate,
+                start: formattedWeekAgoDate,
+                end: formattedDate,
               }
             
             });
