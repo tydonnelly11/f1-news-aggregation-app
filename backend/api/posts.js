@@ -3,8 +3,14 @@ import { sql } from '@vercel/postgres';
 
 
 export default async function getDataFromDatabase(req, res) {
+  console.log(req)
+    const startDate = req.query.start
+    const endDate = req.query.end
     try {
-      const  rows = await sql`SELECT * FROM f1_posts_summary_1 ORDER BY date_column DESC`;
+      const  rows = await sql`SELECT *
+      FROM f1_posts_summary_1
+      WHERE date_column >= '${startDate}'::timestamp
+      AND date_column <= '${endDate}'::timestamp;`;
       console.log(rows)
       res.send(rows.rows, rows.rowCount);
       

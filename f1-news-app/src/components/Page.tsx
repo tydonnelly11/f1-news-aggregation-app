@@ -21,6 +21,7 @@ export const Page = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const postRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [totalPages, setTotalPages] = useState<number>(1);
+    // const [start, setStart] = useState<Date>(0); // Start index of the current page
 
     const [currentPage, setCurrentPage] = useState(1); // Current page
 
@@ -47,9 +48,21 @@ export const Page = () => {
     
     useEffect(() => {
         const fetchPosts = async () => {
+          const currentDate = new Date();
+          const weekAgoDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+          const formattedDate = currentDate.toISOString().split('T')[0] + ' 00:00:00';
+          const formattedWeekAgoDate = weekAgoDate.toISOString().split('T')[0] + ' 00:00:00';
+          console.log(formattedDate, formattedWeekAgoDate);
           setLoading(true);
           try {
-            const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/posts");
+            const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/posts", {
+              params: {
+                end: formattedWeekAgoDate,
+                start: formattedDate,
+              }
+            
+            });
             setData(response.data.map((item: { date_column: any; text_column: any; }) => {
               // Create a Date object from the item's date_column
               const itemDate = new Date(item.date_column);
@@ -112,14 +125,17 @@ export const Page = () => {
       
         <div>
             <nav className="navbar">
-              <p className="navbar-title">Dates</p>
-          {data.map((article, index) => (
+              <p className="navbar-title">Dates for </p>
+              <div>
+                {data.map((article, index) => (
 
-            <button className="nav-button" key={index} onClick={() => scrollToPost(index)}>
-              {article.date}
-            </button>
-          ))}
-        </nav>
+                  <button className="nav-button" key={index} onClick={() => scrollToPost(index)}>
+                    {article.date}
+                  </button>
+                  
+                ))}
+              </div>
+            </nav>
         <div>
         {
         data.map((NewsForDay, index) => (
