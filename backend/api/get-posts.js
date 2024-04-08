@@ -27,6 +27,8 @@ export default async function GetPost(res,req) {
 
   const [postsToBeSummarized, TwitterPosts] = await callRedditAPI(reddit);
   console.log(postsToBeSummarized);
+  console.log("GAP")
+  console.log(TwitterPosts);
  
 
   
@@ -82,7 +84,7 @@ async function callRedditAPI(reddit){
 
   
   const TwitterPosts = postMedias.filter(post => post.url.match(regexTwitter) || post.url.match(regexX));
-  const nonTwitterPosts = postMedias.filter(post => !post.url.match(regexTwitter) && !post.url.match(regexX));
+  const nonTwitterPosts = postMedias.filter(post => !(post.url.match(regexTwitter) || post.url.match(regexX)));
   
 
   
