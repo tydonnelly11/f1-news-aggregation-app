@@ -132,7 +132,7 @@ export const Page = () => {
       
         <div>
             <nav className="navbar">
-              <p className="navbar-title">Dates for {startDate} to {endDate} </p>
+              <p className="navbar-title">Dates for {startDate.toDateString()} to {endDate.toDateString()} </p>
               <div>
                 {data.map((article, index) => (
 
