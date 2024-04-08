@@ -27,13 +27,12 @@ export default async function GetPost(res,req) {
 
   const [postsToBeSummarized, TwitterPosts] = await callRedditAPI(reddit);
   console.log(postsToBeSummarized);
-  console.log(TwitterPosts);
  
 
   
-  const summarizedPosts = await summarizeWithDelay(postsToBeSummarized)
-  console.log(summarizedPosts);
-  formatReport(summarizedPosts);
+  // const summarizedPosts = await summarizeWithDelay(postsToBeSummarized)
+  // console.log(summarizedPosts);
+  // formatReport(summarizedPosts, TwitterPosts);
 
   return new Response('Posts have been summarized and saved to the database')
 
