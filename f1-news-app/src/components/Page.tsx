@@ -21,7 +21,8 @@ export const Page = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const postRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [totalPages, setTotalPages] = useState<number>(1);
-    // const [start, setStart] = useState<Date>(0); // Start index of the current page
+    const [startDate, setStartDate] = useState<String>(""); // Start index of the current page
+    const [endDate, setEndDate] = useState<String>(""); // End index of the current page
 
     const [currentPage, setCurrentPage] = useState(1); // Current page
 
@@ -53,6 +54,8 @@ export const Page = () => {
 
           const formattedDate = currentDate.toISOString().split('T')[0] + ' 00:00:00';
           const formattedWeekAgoDate = weekAgoDate.toISOString().split('T')[0] + ' 00:00:00';
+          setEndDate(weekAgoDate.toISOString);
+          setStartDate(currentDate.toISOString);
           console.log(formattedDate, formattedWeekAgoDate);
           setLoading(true);
           try {
@@ -125,7 +128,7 @@ export const Page = () => {
       
         <div>
             <nav className="navbar">
-              <p className="navbar-title">Dates for </p>
+              <p className="navbar-title">Dates for {startDate} to {endDate} </p>
               <div>
                 {data.map((article, index) => (
 
