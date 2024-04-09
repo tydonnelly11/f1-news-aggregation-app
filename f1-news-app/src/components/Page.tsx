@@ -132,7 +132,7 @@ export const Page = () => {
       
         <div>
             <nav className="navbar">
-              <p className="navbar-title">Dates for {startDate.toDateString()} to {endDate.toDateString()} </p>
+              <p className="navbar-title">News for {startDate.toDateString().slice(4)} to {endDate.toDateString().slice(4)} </p>
               <div className="nav-button-group">
                 {data.map((article, index) => (
 
@@ -144,9 +144,9 @@ export const Page = () => {
               </div>
             </nav>
           <div className="week-btn-group">
-            <button className="nav-button" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
-                <h3 >Week {startDate.toDateString()} to {endDate.toDateString()}</h3>
-            <button className="nav-button" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
+            <button className="week-button" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
+                <h3 >{startDate.toDateString().slice(4)} to {endDate.toDateString().slice(4)}</h3>
+            <button className="week-button" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
             </div>
         <div>
         {
@@ -160,9 +160,9 @@ export const Page = () => {
 
         </div>
         <div className="week-btn-group">
-            <button className="nav-button" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
-                <h3 >Week {startDate.toDateString()} to {endDate.toDateString()}</h3>
-            <button className="nav-button" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
+            <button className="week-button" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
+                <h3 >Week {startDate.toDateString().slice(4)} to {endDate.toDateString().slice(4)}</h3>
+            <button className="week-button" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
             </div>
         </div>
         
