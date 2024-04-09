@@ -13,14 +13,11 @@ type Articles = {
   
 }
 
-//Component for holding one days news articles
+//Component for holding news articles for a given day
 export const Post = (props: Articles) => 
 
 
 {
-
-// const regex = /https:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
-// const url = "https://twitter.com/wbuxtonofficial/status/1776968897729884420";
 
   return (
     <div>
@@ -38,7 +35,7 @@ export const Post = (props: Articles) =>
       ))
     }    
   </div>
-  <h3 className="date-text">End of news for {props.date}</h3>
+  <h3 style={{borderBottom : "3px dashed red" , paddingBottom: "25px"}} className="date-text">End of news for {props.date}</h3>
   </div>
   )
 }

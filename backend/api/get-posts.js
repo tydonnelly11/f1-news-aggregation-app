@@ -59,7 +59,7 @@ async function summarizeWithDelay(posts) {
               summary: `Could not generate summary, here is the articles URL for more reading ${post.url}` 
           });
       }
-      await delay(2500);
+      await delay(2500); //Need delay or else API will hit request limit
   }
 
   return results;
@@ -76,11 +76,11 @@ async function callRedditAPI(reddit){
   const sortedPosts = filteredPosts.sort((a, b) => b.ups - a.ups); //Sort by upvotes
   const postMedias = sortedPosts.map(post => ({ title: post.title, url: post.url })); //Map the title and URL
 
-
+  //Check if URL is a Twitter post
   const regexTwitter = /https:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
   const regexX = /https:\/\/x\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
 
-  
+  //Make two distinct lists
   const TwitterPosts = postMedias.filter(post => post.url.match(regexTwitter) || post.url.match(regexX));
   const nonTwitterPosts = postMedias.filter(post => !(post.url.match(regexTwitter) || post.url.match(regexX)));
   
@@ -108,6 +108,7 @@ function formatReport(summaries, tweets) {
   
   async function summarizePostsFromUrl(url){
   
+    //Set up options for summary request
     const options = {
       method: 'POST',
       headers: {
@@ -124,7 +125,7 @@ function formatReport(summaries, tweets) {
       const response = await fetch('https://api.ai21.com/studio/v1/summarize', options);
       if (!response.ok){
         console.log('Failed to fetch summary:')
-        return `This article is behind a paywall, is in a language other than english or is a screenshot of a social media post, please click the url above to view it.`;
+        return `We can not provide a summary for this article at this time, please click the url above to view it.`;
       }
           const data = await response.json();
           return data.summary; 
@@ -144,7 +145,7 @@ function formatReport(summaries, tweets) {
     const summaryData = JSON.stringify(summaries);
   
       try {
-          await sql`INSERT INTO f1_posts_summary_1 (date_column, text_column, tweet_column) VALUES (${date}, ${summaryData}, ${twitterData});`;
+          await sql`INSERT INTO f1_posts_summary_1 (date_column, text_column, tweets_column) VALUES (${date}, ${summaryData}, ${twitterData});`;
           console.log("Post saved to database");
       } catch (error) {
           console.error("Failed to save post to database", error);

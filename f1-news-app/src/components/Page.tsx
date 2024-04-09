@@ -15,6 +15,7 @@ type Articles = {
     
 }
 
+//Component for holding news articles for a given week.
 export const Page = () => {
 
     const [data, setData] = useState<Articles[]>([]);
@@ -133,6 +134,7 @@ export const Page = () => {
         <div>
             <nav className="navbar">
               <p className="navbar-title">News for {startDate.toDateString().slice(4)} to {endDate.toDateString().slice(4)} </p>
+              <button style={{borderBottom : 'solid white 2px', borderRadius: '0px'}} className="nav-button" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
               <div className="nav-button-group">
                 {data.map((article, index) => (
 
@@ -142,12 +144,14 @@ export const Page = () => {
                   
                 ))}
               </div>
+              <button style={{borderTop : 'solid white 2px', borderRadius: '0px'}} className="nav-button" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
+
             </nav>
-          <div className="week-btn-group">
+          {/* <div className="week-btn-group">
             <button className="week-button" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
                 <h3 >{startDate.toDateString().slice(4)} to {endDate.toDateString().slice(4)}</h3>
             <button className="week-button" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
-            </div>
+            </div> */}
         <div>
         {
         data.map((NewsForDay, index) => (
