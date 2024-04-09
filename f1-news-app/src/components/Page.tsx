@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, } from "react";
 import axios from "axios"
 import { Post } from "./Post";
+// import TweetEmbed from "./TwitterEmbedd";
 
 
 //Holds all the news articles for a given day
@@ -149,11 +150,7 @@ export const Page = () => {
               <button className="week-button-bot" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
 
             </nav>
-          {/* <div className="week-btn-group">
-            <button className="week-button" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
-                <h3 >{startDate.toDateString().slice(4)} to {endDate.toDateString().slice(4)}</h3>
-            <button className="week-button" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
-            </div> */}
+          
         <div>
         {
         data.map((NewsForDay, index) => (

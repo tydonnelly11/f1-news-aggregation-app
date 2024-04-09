@@ -164,19 +164,20 @@
         position: sticky;
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: 76%;
         height: 5%;
         z-index: 100;
         padding-top: 0;
 
     }
     .countdown{
-        width: 100%;
-        left: 0;
+        width: 75%;
+        left: 0%;
     }
     .nav-button-group{
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: space-around;
         width: 100%;
         margin-top: 3px;
@@ -185,6 +186,8 @@
 
     .nav-button{
         text-decoration: underline;
+        font-size: .5em;
+        padding: 0px;
     }
 
     .week-btn-group{
@@ -216,6 +219,10 @@
 
     .navbar-title{
         margin: 0;
+    }
+
+    .summary-text, .title-text, .date-text, .link{
+        left: 5%;
     }
    
     
