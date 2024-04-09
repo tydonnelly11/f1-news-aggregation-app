@@ -14,10 +14,8 @@ type Articles = {
 }
 
 //Component for holding news articles for a given day
-export const Post = (props: Articles) => 
-
-
-{
+export const Post = (props: Articles) => {
+  
 
   return (
     <div>

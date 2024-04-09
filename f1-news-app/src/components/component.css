@@ -58,9 +58,9 @@
     display: flex;
     flex-direction: column;
     background-color: #e10600;
+    border-top-right-radius: 7.5px;
 }
 .nav-button{
-    text-decoration: underline;
     background-color: #e10600;
     color: white;
     border: 1px solid #DC143C;
@@ -113,14 +113,34 @@
 }
 
 .week-button{
-    text-decoration: underline;
+    /* text-decoration: underline; */
     background-color: #e10600;
     color: white;
     border: 1px solid #DC143C;
     margin-top: 2px;
     margin-bottom: 2px;
-    width: 30%;
-    height: 50%;
+}
+
+.week-button-bot{
+    /* text-decoration: underline; */
+    background-color: #e10600;
+    color: white;
+    border: 1px solid #DC143C;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-top: solid 2px white;
+    border-radius: 0px;
+}
+
+.week-button-top{
+    /* text-decoration: underline; */
+    background-color: #e10600;
+    color: white;
+    border: 1px solid #DC143C;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-bottom: solid white 2px;
+    border-radius: 0px
 }
 
 .week-btn-group{
@@ -138,7 +158,7 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 1150px) {
+@media screen and (max-width: 1000px) {
     
     .navbar{
         position: sticky;
@@ -159,6 +179,12 @@
         flex-direction: row;
         justify-content: space-around;
         width: 100%;
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+    .nav-button{
+        text-decoration: underline;
     }
 
     .week-btn-group{
@@ -171,10 +197,40 @@
         margin-top: 50px;
     }
 
-    .week-button{
-        width: 30%;
+
+    .week-button-top{
         height: 50%;
+        margin: 0;
+        border-bottom: white 1px solid;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .week-button-bot{
+        height: 50%;
+        margin: 0;
+        border-top: white 1px solid;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .navbar-title{
+        margin: 0;
     }
    
+    
+}
+
+@media screen and (max-width: 1300px) and (min-width: 1000px) {
+    
+    .page{
+        position: relative;
+        left: 7.5%;
+    }
+
+    .countdown{
+        width: 80%;
+        left: 20%;
+    }
     
 }

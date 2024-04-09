@@ -34,8 +34,7 @@ export default async function GetPost(res,req) {
   console.log(TwitterPosts)
   formatReport(summarizedPosts, TwitterPosts);
 
-  return new Response('Posts have been summarized and saved to the database')
-
+  // res.status(200).send("Posts saved to database");
 }
 
 //This function waits for 2.5 seconds before processing the next post

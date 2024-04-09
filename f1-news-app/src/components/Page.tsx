@@ -22,8 +22,10 @@ export const Page = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const postRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [totalPages, setTotalPages] = useState<number>(1);
-    const [startDate, setStartDate] = useState<Date>(new Date()); // Start index of the current page
-    const [endDate, setEndDate] = useState<Date>(new Date(startDate.getTime() - 7 * 24 * 60 * 60 * 1000)); // End index of the current page
+    const intialDate = new Date();
+    intialDate.setDate(intialDate.getDate() - 1);
+    const [startDate, setStartDate] = useState<Date>(intialDate); // Start index of the current page
+    const [endDate, setEndDate] = useState<Date>(new Date(startDate.getTime() - 6 * 24 * 60 * 60 * 1000)); // End index of the current page
 
     const [currentPage, setCurrentPage] = useState(1); // Current page
 
@@ -131,10 +133,10 @@ export const Page = () => {
 
     return (
       
-        <div>
+        <div className="page">
             <nav className="navbar">
               <p className="navbar-title">News for {startDate.toDateString().slice(4)} to {endDate.toDateString().slice(4)} </p>
-              <button style={{borderBottom : 'solid white 2px', borderRadius: '0px'}} className="nav-button" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
+              <button className="week-button-top" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
               <div className="nav-button-group">
                 {data.map((article, index) => (
 
@@ -144,7 +146,7 @@ export const Page = () => {
                   
                 ))}
               </div>
-              <button style={{borderTop : 'solid white 2px', borderRadius: '0px'}} className="nav-button" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
+              <button className="week-button-bot" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
 
             </nav>
           {/* <div className="week-btn-group">
