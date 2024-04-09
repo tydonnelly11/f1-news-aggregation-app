@@ -26,15 +26,12 @@ export default async function GetPost(res,req) {
   const reddit = getAuthorizationToken();
 
   const { nonTwitterPosts, TwitterPosts } = await callRedditAPI(reddit);
-  console.log(nonTwitterPosts);
-  console.log("GAP")
-  console.log(TwitterPosts);
+
  
 
   
-  // const summarizedPosts = await summarizeWithDelay(postsToBeSummarized)
-  // console.log(summarizedPosts);
-  // formatReport(summarizedPosts, TwitterPosts);
+  const summarizedPosts = await summarizeWithDelay(nonTwitterPosts)
+  formatReport(summarizedPosts, TwitterPosts);
 
   return new Response('Posts have been summarized and saved to the database')
 
@@ -77,8 +74,6 @@ async function callRedditAPI(reddit){
   const filteredPosts = recentPosts.filter(post => post.link_flair_text === ':post-news: News'); //Only posts flagged as news
   const sortedPosts = filteredPosts.sort((a, b) => b.ups - a.ups); //Sort by upvotes
   const postMedias = sortedPosts.map(post => ({ title: post.title, url: post.url })); //Map the title and URL
-  // console.log(postMedias);
-  // console.log("POST")
 
 
   const regexTwitter = /https:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
@@ -143,8 +138,9 @@ function formatReport(summaries, tweets) {
   //Saves the post to the database
   async function savePostToDatabase(date, summaries, tweets) {
     
-    const text = { summaries, tweets };
+    const text = { summaries: summaries, tweets: tweets };
     const data = JSON.stringify(text);
+    console.log(data);
   
       try {
           await sql`INSERT INTO f1_posts_summary_1 (date_column, text_column) VALUES (${date}, ${data})`;

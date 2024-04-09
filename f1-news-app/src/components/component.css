@@ -104,6 +104,24 @@
     left: 20%;
 }
 
+.week-title{
+    width: auto;
+}
+
+h3{
+    
+}
+
+.week-btn-group{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 50%;
+    position: relative;
+    left: 30%
+
+}
+
 .link:hover{
     color: #e10600;
     cursor: pointer;

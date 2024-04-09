@@ -141,6 +141,11 @@ export const Page = () => {
                 ))}
               </div>
             </nav>
+          <div className="week-btn-group">
+            <button className="nav-button" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
+                <h3 >Week {startDate.toDateString()} to {endDate.toDateString()}</h3>
+            <button className="nav-button" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
+            </div>
         <div>
         {
         data.map((NewsForDay, index) => (
@@ -152,10 +157,10 @@ export const Page = () => {
 
 
         </div>
-        <div>
-            <button onClick={handlePrevious} disabled={currentPage === 1}>Previous</button>
-                <span>Page {currentPage} of {totalPages}</span>
-            <button onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
+        <div className="week-btn-group">
+            <button className="nav-button" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
+                <h3 >Week {startDate.toDateString()} to {endDate.toDateString()}</h3>
+            <button className="nav-button" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
             </div>
         </div>
         
