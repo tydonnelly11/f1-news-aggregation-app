@@ -144,7 +144,7 @@ function formatReport(summaries, tweets) {
     const summaryData = JSON.stringify(summaries);
   
       try {
-          await sql`INSERT INTO f1_posts_summary_1 (date_column, text_column, tweet_column) VALUES (${date}, ${summaryData}, ${twitterData}`;
+          await sql`INSERT INTO f1_posts_summary_1 (date_column, text_column, tweet_column) VALUES (${date}, ${summaryData}, ${twitterData});`;
           console.log("Post saved to database");
       } catch (error) {
           console.error("Failed to save post to database", error);

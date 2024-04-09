@@ -64,7 +64,6 @@ export const Page = () => {
               }
             
             });
-            if(response.data.text_column.summaries === null){
               setData(response.data.map((item: { date_column: any; text_column: any; }) => {
               // Create a Date object from the item's date_column
               const itemDate = new Date(item.date_column);
@@ -84,7 +83,7 @@ export const Page = () => {
                 summaries: item.text_column,
               };
             }));
-          }
+          
             console.log(data);
 
               postRefs.current = response.data.map((_: any, i: number) => postRefs.current[i] || null); //Takes each post and assigns it to a ref
