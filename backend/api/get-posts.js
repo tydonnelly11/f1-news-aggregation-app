@@ -31,6 +31,7 @@ export default async function GetPost(res,req) {
 
   
   const summarizedPosts = await summarizeWithDelay(nonTwitterPosts)
+  console.log(TwitterPosts)
   formatReport(summarizedPosts, TwitterPosts);
 
   return new Response('Posts have been summarized and saved to the database')
@@ -99,8 +100,8 @@ function formatReport(summaries, tweets) {
     const now = new Date();
     now.setDate(now.getDate() - 1); //Get the date of yesterday
     const formattedDate = now.toISOString().slice(0, 10).replace('T', ''); //Make date format compatible with SQL
-  
-    savePostToDatabase(formattedDate, summaries, tweets);
+    const TwitterPosts = tweets
+    savePostToDatabase(formattedDate, summaries, TwitterPosts);
     
     
   }
@@ -138,12 +139,12 @@ function formatReport(summaries, tweets) {
   //Saves the post to the database
   async function savePostToDatabase(date, summaries, tweets) {
     
-    const text = { summaries: summaries, tweets: tweets };
-    const data = JSON.stringify(text);
-    console.log(data);
+    // const text = { summaries: summaries, tweets: tweets };
+    const twitterData = JSON.stringify(tweets);
+    const summaryData = JSON.stringify(summaries);
   
       try {
-          await sql`INSERT INTO f1_posts_summary_1 (date_column, text_column) VALUES (${date}, ${data})`;
+          await sql`INSERT INTO f1_posts_summary_1 (date_column, text_column, tweet_column) VALUES (${date}, ${summaryData}, ${twitterData}`;
           console.log("Post saved to database");
       } catch (error) {
           console.error("Failed to save post to database", error);
