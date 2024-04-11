@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import snoowrap from 'snoowrap';
 import { sql } from '@vercel/postgres';
 import fetch from 'node-fetch';
+import axios from 'axios';
 
 dotenv.config();  
 
