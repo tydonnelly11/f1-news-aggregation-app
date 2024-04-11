@@ -29,10 +29,10 @@ export default async function GetPost(res,req) {
 
  
 
-  
-  const summarizedPosts = await summarizeWithDelay(nonTwitterPosts)
-  console.log(TwitterPosts)
-  formatReport(summarizedPosts, TwitterPosts);
+  getTwitterEmbeds(TwitterPosts);
+  // const summarizedPosts = await summarizeWithDelay(nonTwitterPosts)
+  // console.log(TwitterPosts)
+  // formatReport(summarizedPosts, TwitterPosts);
 
   // res.status(200).send("Posts saved to database");
 }
@@ -99,7 +99,7 @@ function formatReport(summaries, tweets) {
     const now = new Date();
     now.setDate(now.getDate() - 1); //Get the date of yesterday
     const formattedDate = now.toISOString().slice(0, 10).replace('T', ''); //Make date format compatible with SQL
-    const TwitterPosts = tweets
+    const TwitterPosts = getTwitterEmbeds(tweets);
     savePostToDatabase(formattedDate, summaries, TwitterPosts);
     
     
@@ -151,6 +151,21 @@ function formatReport(summaries, tweets) {
       }
     
   }
-  
+
+  async function getTwitterEmbeds(tweets) {
+    // const twitterPosts = req.twitterLinks
+
+    const tweetInHTML = [];
+
+    for(const tweet in tweets){
+        const response = await axios.get(`https://publish.twitter.com/oembed?url=${tweet.url}`)
+        tweetInHTML.push(response.html)
+        console.log(response.html)
+
+    }
+    console.log(tweetInHTML);
+
+    return tweetInHTML;
+  }
   
   
