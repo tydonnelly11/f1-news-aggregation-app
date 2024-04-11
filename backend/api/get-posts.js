@@ -160,7 +160,7 @@ function formatReport(summaries, tweets) {
     for(const tweet in tweets){
         const response = await axios.get(`https://publish.twitter.com/oembed?url=${tweet.url}`)
         tweetInHTML.push(response.html)
-        console.log(response.html)
+        console.log(response)
 
     }
     console.log(tweetInHTML);
