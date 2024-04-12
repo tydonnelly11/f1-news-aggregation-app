@@ -30,10 +30,9 @@ export default async function GetPost(res,req) {
 
  
 
-  getTwitterEmbeds(TwitterPosts);
-  // const summarizedPosts = await summarizeWithDelay(nonTwitterPosts)
-  // console.log(TwitterPosts)
-  // formatReport(summarizedPosts, TwitterPosts);
+  const embeddedTweets = await getTwitterEmbeds(TwitterPosts);
+  const summarizedPosts = await summarizeWithDelay(nonTwitterPosts)
+  formatReport(summarizedPosts, embeddedTweets);
 
   // res.status(200).send("Posts saved to database");
 }
@@ -159,13 +158,12 @@ function formatReport(summaries, tweets) {
     const tweetInHTML = [];
 
     for(const tweet of tweets){
-      console.log(tweet.url)
         const response = await axios.get(`https://publish.twitter.com/oembed?url=${tweet.url}`)
-        tweetInHTML.push(response.html)
-        console.log(response)
+        tweetInHTML.push(response.data.html)
 
     }
-    console.log(tweetInHTML);
+
+    console.log(tweetInHTML)
 
     return tweetInHTML;
   }
