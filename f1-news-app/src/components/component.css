@@ -153,6 +153,21 @@
 
 }
 
+.tweet-list {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    grid-gap: 0px;
+    position: relative;
+    left: 15%;
+}
+  
+.tweet {
+    height: 500px; /* Fixed height */
+    width: auto; /* Fixed width */
+    overflow: auto; /* Adds scrollbars if content overflows */
+   
+}
+
 .link:hover{
     color: #e10600;
     cursor: pointer;
