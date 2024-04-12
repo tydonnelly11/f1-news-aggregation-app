@@ -99,7 +99,6 @@ function formatReport(summaries, tweets) {
     const now = new Date();
     now.setDate(now.getDate() - 1); //Get the date of yesterday
     const formattedDate = now.toISOString().slice(0, 10).replace('T', ''); //Make date format compatible with SQL
-    const TwitterPosts = getTwitterEmbeds(tweets);
     savePostToDatabase(formattedDate, summaries, TwitterPosts);
     
     
@@ -156,14 +155,17 @@ function formatReport(summaries, tweets) {
     // const twitterPosts = req.twitterLinks
 
     const tweetInHTML = [];
+    console.log(`Processing ${tweets.length} tweets.`);
 
     for(const tweet of tweets){
       try{
         const response = await axios.get(`https://publish.twitter.com/oembed?url=${tweet.url}`)
         tweetInHTML.push(response.data.html)
+        console.log(tweetInHTML)
       } catch (error) {
-        console.error("Failed to fetch Twitter embed", error);
+        continue;
       }
+      
 
     }
 
