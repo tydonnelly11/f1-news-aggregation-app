@@ -99,7 +99,7 @@ function formatReport(summaries, tweets) {
     const now = new Date();
     now.setDate(now.getDate() - 1); //Get the date of yesterday
     const formattedDate = now.toISOString().slice(0, 10).replace('T', ''); //Make date format compatible with SQL
-    savePostToDatabase(formattedDate, summaries, TwitterPosts);
+    savePostToDatabase(formattedDate, summaries, tweets);
     
     
   }
