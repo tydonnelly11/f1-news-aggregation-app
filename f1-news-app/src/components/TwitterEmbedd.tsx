@@ -1,43 +1,40 @@
-import React, { useEffect, useRef } from 'react';
-import axios from 'axios';
-declare global {
-    interface Window {
-        twttr: any;
-    }
-}
+import { useEffect } from "react";
 
-interface TweetEmbedProps {
-  tweetUrl: string;
-}
-
-const TweetEmbed: React.FC<TweetEmbedProps> = ({ tweetUrl }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+const TweetFrame = ( props : { htmlContent: Array<string> }) => {
 
   useEffect(() => {
-    // Function to load the Twitter widgets.js script
+    const script = document.createElement('script');
+    script.src = "https://platform.twitter.com/widgets.js";
+    script.async = true;
+    script.charset = "utf-8";
     
+    document.body.appendChild(script);
 
-
-    
-    // Function to render the tweet using Twitter's widgets API
-    const getEmbed = async () => {
-      const response = await axios.get("https://publish.twitter.com/oembed", {
-        params: {
-          url : tweetUrl,
-        }
-      })
-
-      console.log(response.data.html)
-      
+    return () => {
+      document.body.removeChild(script);
     };
-
-    // Helper function to extract the tweet ID from the tweet URL
-    
-
-    getEmbed()
   }, []);
 
-  return <div ref={containerRef} />;
+
+  if(props.htmlContent === null){
+    return <div></div>
+  }
+  else{
+
+  
+  return (
+    <div className="tweet-container">
+      <h2 className="countdown">Tweets</h2>
+    <ul className="tweet-list">
+      {
+        props.htmlContent.map((htmlContent, index) => (
+          <li className='tweet' key={index} dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        ))
+      }
+    </ul>
+    </div>
+  );
+  }
 };
 
-export default TweetEmbed;
+export default TweetFrame;

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, } from "react";
 import axios from "axios"
 import { Post } from "./Post";
+import TweetFrame from "./TwitterEmbedd";
 // import TweetEmbed from "./TwitterEmbedd";
 
 
@@ -12,8 +13,9 @@ type Articles = {
         title: string,
         summary: string
       }
+
     ]
-    
+    tweets : Array<string>    
 }
 
 //Component for holding news articles for a given week.
@@ -68,7 +70,7 @@ export const Page = () => {
               }
             
             });
-              setData(response.data.map((item: { date_column: any; text_column: any; }) => {
+              setData(response.data.map((item: { date_column: any; text_column: any; tweets_column : any;}) => {
               // Create a Date object from the item's date_column
               const itemDate = new Date(item.date_column);
           
@@ -85,6 +87,7 @@ export const Page = () => {
               return {
                 date: formattedDate,
                 summaries: item.text_column,
+                tweets : item.tweets_column
               };
             }));
           
@@ -155,7 +158,12 @@ export const Page = () => {
         {
         data.map((NewsForDay, index) => (
           <div ref={el => postRefs.current[index] = el} key={index}>
+              <h3 className="date-text">Start of news for {NewsForDay.date}</h3>
           <Post date={NewsForDay.date} summaries={NewsForDay.summaries} />
+          { <TweetFrame htmlContent={NewsForDay.tweets}/> }
+          <h3 style={{borderBottom : "3px dashed red" , paddingBottom: "25px"}} className="date-text">End of news for {NewsForDay.date}</h3>
+
+
         </div>
         ))
         }
