@@ -23,7 +23,7 @@ const TweetFrame = ( props : { htmlContent: Array<string> }) => {
 
   
   return (
-    <div>
+    <div className="tweet-container">
       <h2 className="countdown">Tweets</h2>
     <ul className="tweet-list">
       {
