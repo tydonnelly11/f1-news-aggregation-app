@@ -192,8 +192,8 @@
 
     }
     .countdown{
-        width: 75%;
-        left: 0%;
+        width: 90%;
+        left: 5%;
     }
     .nav-button-group{
         display: flex;
@@ -242,13 +242,12 @@
         margin: 0;
     }
 
-    .summary-text, .title-text, .date-text, .link{
-        left: 5%;
+    .summary-text{
+        font-size: .9em;
     }
 
-    .summary-text{
-        width: 85%;
-    }
+    
+
    
     
 }

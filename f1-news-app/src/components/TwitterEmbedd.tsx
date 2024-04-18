@@ -16,7 +16,7 @@ const TweetFrame = ( props : { htmlContent: Array<string> }) => {
   }, []);
 
 
-  if(props.htmlContent === null){
+  if(props.htmlContent === null || props.htmlContent.length === 0){
     return <div></div>
   }
   else{

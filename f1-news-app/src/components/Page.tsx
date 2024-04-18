@@ -42,7 +42,7 @@ export const Page = () => {
         try {
           const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/get-total-post-number");
           console.log(response.data);
-          const weekCount = Math.floor(response.data / 7);
+          const weekCount = Math.ceil(response.data / 7);
           setTotalPages(weekCount);
           
 
