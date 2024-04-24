@@ -9,7 +9,7 @@ export const Countdown = () => {
     const [timeLeft, setTimeLeft] = useState<string>();
 
     useEffect(() => {
-        const targetDate = new Date("Apr 21, 2024, 2:00:00").getTime(); //Curent start time of Japanese GP
+        const targetDate = new Date("May 5, 2024, 15:00:00").getTime(); //Curent start time of Japanese GP
 
         const interval = setInterval(() => {
             const now = new Date().getTime();
@@ -28,7 +28,7 @@ export const Countdown = () => {
             // If the count down is over, write some text 
             if (distance < 0) {
                 clearInterval(interval);
-                setTimeLeft("Japanese GP has started!");
+                setTimeLeft("Miami GP has started!");
             }
         }, 1000);
         return () => clearInterval(interval);
@@ -37,7 +37,7 @@ export const Countdown = () => {
    
     return (
         <div>
-            <h2 className="countdown">Countdown to start of Chinese GP: {timeLeft}</h2>
+            <h2 className="countdown">Countdown to start of Miami GP: {timeLeft}</h2>
         </div>
     )
 
