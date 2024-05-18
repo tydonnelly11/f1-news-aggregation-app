@@ -179,7 +179,7 @@ export const Page = () => {
           <div ref={el => postRefs.current[index] = el} key={index}>
               <h3 className="date-text">Start of news for {NewsForDay.date}</h3>
           <Post date={NewsForDay.date} summaries={NewsForDay.summaries} />
-          {/* { <TweetFrame htmlContent={NewsForDay.tweets}/> } */}
+          { <TweetFrame htmlContent={NewsForDay.tweets}/> }
           <h3 style={{borderBottom : "3px dashed red" , paddingBottom: "25px"}} className="date-text">End of news for {NewsForDay.date}</h3>
 
 
