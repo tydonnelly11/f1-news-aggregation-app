@@ -25,14 +25,28 @@ export const Page = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const postRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [totalPages, setTotalPages] = useState<number>(1);
+
+
     const intialDate = new Date();
     intialDate.setDate(intialDate.getDate() - 1);
-    const [startDate, setStartDate] = useState<Date>(intialDate); // Start index of the current page
-    const [endDate, setEndDate] = useState<Date>(new Date(startDate.getTime() - 6 * 24 * 60 * 60 * 1000)); // End index of the current page
 
+    const toUTCDate = (date: Date) => {
+      return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+    };
+  
+
+    const [startDate, setStartDate] = useState<Date>(toUTCDate(intialDate));
+    const [endDate, setEndDate] = useState<Date>(toUTCDate(new Date(intialDate.getTime() - 7 * 24 * 60 * 60 * 1000)));
+    const [isToggle, setToggle] = useState<boolean>(true);
     const [currentPage, setCurrentPage] = useState(1); // Current page
 
-    
+    const formatDateRange = (start: Date, end: Date) => {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' } as const;
+      const startFormatted = new Intl.DateTimeFormat('en-US', options).format(start);
+      const endAdjusted = new Date(end.getTime() + 24 * 60 * 60 * 1000); // Add one day
+      const endFormatted = new Intl.DateTimeFormat('en-US', options).format(endAdjusted);
+      return `News for ${startFormatted} to ${endFormatted}`;
+    };
 
     
 
@@ -63,13 +77,15 @@ export const Page = () => {
           
           setLoading(true);
           try {
-            const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/posts", {
+            const response = await axios.get("http://localhost:3000/api/posts", {
               params: {
                 end: startDate.toISOString().split('T')[0] + ' 00:00:00', //End of current week
                 start: endDate.toISOString().split('T')[0] + ' 00:00:00', //Start of current week
               }
             
             });
+            console.log(endDate.toDateString().slice(4));
+            console.log(endDate.toISOString().split('T')[0] + ' 00:00:00');
               setData(response.data.map((item: { date_column: any; text_column: any; tweets_column : any;}) => {
               // Create a Date object from the item's date_column
               const itemDate = new Date(item.date_column);
@@ -138,8 +154,10 @@ export const Page = () => {
     return (
       
         <div className="page">
-            <nav className="navbar">
-              <p className="navbar-title">News for {startDate.toDateString().slice(4)} to {endDate.toDateString().slice(4)} </p>
+            <nav className={`navbar ${isToggle ? 'navbar' : 'navbar-toggled'}`}>
+              <button className={`${isToggle ? 'navbar-toggle-btn' : 'navbar-toggled-btn'}`} onClick={() => setToggle(!isToggle)} >☰</button>
+              {isToggle && ( <div className="navbar-links">
+              <p className="navbar-title">{formatDateRange(startDate, endDate)} </p>
               <button className="week-button-top" onClick={handlePrevious} disabled={currentPage === 1}>Next Week</button>
               <div className="nav-button-group">
                 {data.map((article, index) => (
@@ -151,6 +169,7 @@ export const Page = () => {
                 ))}
               </div>
               <button className="week-button-bot" onClick={handleNext} disabled={currentPage === totalPages}>Previous Week</button>
+              </div>)}
 
             </nav>
           
@@ -160,7 +179,7 @@ export const Page = () => {
           <div ref={el => postRefs.current[index] = el} key={index}>
               <h3 className="date-text">Start of news for {NewsForDay.date}</h3>
           <Post date={NewsForDay.date} summaries={NewsForDay.summaries} />
-          { <TweetFrame htmlContent={NewsForDay.tweets}/> }
+          {/* { <TweetFrame htmlContent={NewsForDay.tweets}/> } */}
           <h3 style={{borderBottom : "3px dashed red" , paddingBottom: "25px"}} className="date-text">End of news for {NewsForDay.date}</h3>
 
 
