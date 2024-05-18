@@ -77,7 +77,7 @@ export const Page = () => {
           
           setLoading(true);
           try {
-            const response = await axios.get("http://localhost:3000/api/posts", {
+            const response = await axios.get("https://f1-news-aggregation-app-server.vercel.app/api/posts", {
               params: {
                 end: startDate.toISOString().split('T')[0] + ' 00:00:00', //End of current week
                 start: endDate.toISOString().split('T')[0] + ' 00:00:00', //Start of current week
